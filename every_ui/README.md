@@ -1,6 +1,7 @@
 # EveryUi
 
-**TODO: Add description**
+You can find the that [why here](../every_ui/README.md)
+
 
 ## Installation
 
@@ -14,8 +15,4 @@ def deps do
   ]
 end
 ```
-
-Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
-and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
-be found at <https://hexdocs.pm/every_ui>.
 
