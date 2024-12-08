@@ -9,7 +9,8 @@ defmodule App.MixProject do
       elixirc_paths: elixirc_paths(Mix.env()),
       start_permanent: Mix.env() == :prod,
       aliases: aliases(),
-      deps: deps()
+      deps: deps(),
+      compilers: Mix.compilers() ++ [:surface]
     ]
   end
 
@@ -20,7 +21,8 @@ defmodule App.MixProject do
     ]
   end
 
-  defp elixirc_paths(:test), do: ["lib", "test/support"]
+  defp elixirc_paths(:test), do: ["lib", "test/support"] ++ catalogues()
+  defp elixirc_paths(:dev), do: ["lib"] ++ catalogues()
   defp elixirc_paths(_), do: ["lib"]
 
   # Specifies your project dependencies.
@@ -29,9 +31,6 @@ defmodule App.MixProject do
   defp deps do
     [
       {:phoenix, "~> 1.7.17"},
-      {:phoenix_ecto, "~> 4.5"},
-      {:ecto_sql, "~> 3.10"},
-      {:postgrex, ">= 0.0.0"},
       {:phoenix_html, "~> 4.1"},
       {:phoenix_live_reload, "~> 1.2", only: :dev},
       {:phoenix_live_view, "~> 1.0.0"},
@@ -46,7 +45,8 @@ defmodule App.MixProject do
       {:jason, "~> 1.2"},
       {:dns_cluster, "~> 0.1.1"},
       {:bandit, "~> 1.5"},
-      {:surface, path: "../../surface"}
+      {:surface, path: "../../surface", override: true},
+      {:surface_catalogue, "~> 0.6.3"}
     ]
   end
 
@@ -58,10 +58,8 @@ defmodule App.MixProject do
   # See the documentation for `Mix` for more info on aliases.
   defp aliases do
     [
-      setup: ["deps.get", "ecto.setup", "assets.setup", "assets.build"],
-      "ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"],
-      "ecto.reset": ["ecto.drop", "ecto.setup"],
-      test: ["ecto.create --quiet", "ecto.migrate --quiet", "test"],
+      setup: ["deps.get", "assets.setup", "assets.build"],
+      test: ["test"],
       "assets.setup": ["tailwind.install --if-missing", "esbuild.install --if-missing"],
       "assets.build": ["tailwind app", "esbuild app"],
       "assets.deploy": [
@@ -69,6 +67,12 @@ defmodule App.MixProject do
         "esbuild app --minify",
         "phx.digest"
       ]
+    ]
+  end
+
+  def catalogues do
+    [
+      "priv/catalogue"
     ]
   end
 end
