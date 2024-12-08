@@ -1,6 +1,6 @@
 # EveryUi
 
-You can find the that [why here](./README.md)
+You can find the that [why here](../README.md)
 
 
 ## Installation
